@@ -1,16 +1,14 @@
 {
   "version": "4",
   "specifiers": {
-    "jsr:@psephos/elgamal@^1.0.6": "1.0.6",
     "jsr:@std/assert@1": "1.0.11",
     "jsr:@std/cli@*": "1.0.14",
     "jsr:@std/internal@^1.0.5": "1.0.5",
+    "npm:@psephos/elgamal@*": "1.0.6",
+    "npm:@psephos/elgamal@^1.0.6": "1.0.6",
     "npm:@types/node@*": "22.12.0"
   },
   "jsr": {
-    "@psephos/elgamal@1.0.6": {
-      "integrity": "67e253bdd729f77b28ba1db4436357ad894a8fb8cb2c1f6cb3c5ae8a6712d9bc"
-    },
     "@std/assert@1.0.11": {
       "integrity": "2461ef3c368fe88bc60e186e7744a93112f16fd110022e113a0849e94d1c83c1",
       "dependencies": [
@@ -25,6 +23,9 @@
     }
   },
   "npm": {
+    "@psephos/elgamal@1.0.6": {
+      "integrity": "sha512-eHjmL9GW6wocyCMMCkaTGp5/Alafr+qO5r700XyVWx1P0q9/tTSgXmylpFN5/SX0CdSeUZtR8yLCSGi5r0Usfw=="
+    },
     "@types/node@22.12.0": {
       "integrity": "sha512-Fll2FZ1riMjNmlmJOdAyY5pUbkftXslB5DgEzlIuNaiWhXd00FhWxVC/r4yV/4wBb9JfImTu+jiSvXTkJ7F/gA==",
       "dependencies": [
@@ -120,8 +121,8 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@psephos/elgamal@^1.0.6",
-      "jsr:@std/assert@1"
+      "jsr:@std/assert@1",
+      "npm:@psephos/elgamal@^1.0.6"
     ]
   }
 }
