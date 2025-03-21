@@ -26,8 +26,20 @@ await build({
   entryPoints: [
     "./mod.ts",
     {
+      name: "./ballot",
+      path: "./ballot.ts",
+    },
+    {
+      name: "./types",
+      path: "./types.ts",
+    },
+    {
       name: "./utils",
       path: "./utils.ts",
+    },
+    {
+      name: "./validator",
+      path: "./validator.ts",
     },
   ],
   rootTestDir: "./tests",
@@ -40,19 +52,46 @@ await build({
     deno: test,
     crypto: false,
   },
+  mappings: {
+    "npm:@psephos/elgamal/utils": {
+      name: "@psephos/elgamal",
+      version: "^1.0.6",
+      subPath: "utils"
+    },
+    "npm:@psephos/elgamal": {
+      name: "@psephos/elgamal",
+      version: "^1.0.6"
+    }
+  },
+  scriptModule: false,
   package: {
     name: infoDeno.name,
     version,
     description: infoDeno.description,
     license: infoDeno.license,
+    dependencies: {
+      "@psephos/elgamal": "^1.0.6",
+    },
     exports: {
       ".": {
         import: "./esm/mod.js",
         require: "./script/mod.js",
       },
+      "./ballot": {
+        import: "./esm/ballot.js",
+        require: "./script/ballot.js",
+      },
+      "./types": {
+        import: "./esm/types.js",
+        require: "./script/types.js",
+      },
       "./utils": {
         import: "./esm/utils.js",
         require: "./script/utils.js",
+      },
+      "./validator": {
+        import: "./esm/validator.js",
+        require: "./script/validator.js",
       },
     },
     repository: {
