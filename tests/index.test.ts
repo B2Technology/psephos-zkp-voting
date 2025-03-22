@@ -8,7 +8,7 @@ import { assertEquals } from "https://deno.land/std@0.192.0/testing/asserts.ts";
 
 // const system = CryptoSystem.fromJSON(CRYPTO_PARAMS);
 
-Deno.test("Ciphertext::construtor", async () => {
+Deno.test("Ciphertext::construtor", () => {
   // const keyPair = await system.generateKeyPair();
   // const alpha = new BigInteger("123456789");
   // const beta = new BigInteger("987654321");
@@ -19,5 +19,5 @@ Deno.test("Ciphertext::construtor", async () => {
   // assertEquals(ciphertext.alpha.toString(), "123456789");
   // assertEquals(ciphertext.beta.toString(), "987654321");
   // assertEquals(ciphertext.pk, keyPair.pk);
-   assertEquals(1,1);
+  assertEquals(1, 1);
 });
