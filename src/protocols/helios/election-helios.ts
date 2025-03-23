@@ -1,6 +1,7 @@
 import type { PublicKey } from "@psephos/elgamal";
 import type { IElection } from "../../types/index.ts";
 import type { IQuestion } from "../../types/index.ts";
+import type { IElectionHelios } from "./types.ts";
 
 export class ElectionHelios {
   // deno-lint-ignore no-explicit-any
@@ -15,12 +16,11 @@ export class ElectionHelios {
       randomize_answer_order: q.randomize_answer_order,
       result_type: q.result_type,
       short_name: q.short_name,
-      tally_type: q.tally,
+      tally_type: q.tally_type,
     };
   }
 
-  // deno-lint-ignore no-explicit-any
-  static modelFromHelios(e: Record<string, any>): IElection {
+  static modelFromHelios(e: IElectionHelios): IElection {
     return {
       uuid: e.uuid,
       description: e.description,
@@ -37,7 +37,7 @@ export class ElectionHelios {
       use_voter_aliases: e.use_voter_aliases,
       voting_starts_at: e.voting_starts_at,
       voting_ends_at: e.voting_ends_at,
-      election_hash: e.election_hash,
+      election_hash: e.election_hash || null,
     };
   }
 
@@ -80,10 +80,10 @@ export class ElectionHelios {
       "}",
     ].join("");
 
-    return ElectionHelios.b64_sha256(template);
+    return ElectionHelios.b64SHA256(template);
   }
 
-  static async b64_sha256(stringToHash: string): Promise<string> {
+  static async b64SHA256(stringToHash: string): Promise<string> {
     const encoder = new TextEncoder();
     const data = encoder.encode(stringToHash);
 

@@ -1,11 +1,50 @@
 import type { PshProtocolEnum } from "./enums.ts";
 
 export interface IBallot<T> {
+  /**
+   * Registra os votos do eleitor
+   * Como: cada objeto da lista `answers` é uma resposta a uma pergunta, que foi criptografada com a chave pública da eleição
+   * Garante: as provas contidas no objeto, demonstra que é um voto válido e sem duplicação de escolhas
+   */
   answers: T[];
-  ballot_hash: string; // (garante q nao sera alterado mais nada no answers) concatena os hashes das respostas e gera um hash SHA256
-  voter_proof: string; // (prova de forma anonoma q o vontante esta habilitado) algum tipo de prova, pra validar q o eleitor esta na merkletree (de forma anonima)
-  app_signature: string; // (prova q quem gerou a cedula, foi um serviço autorizado) algum tipo de prova, pra provar q a cedula foi assinada pelo cliente homologado (essa assinatura ja é feita no backend do cliente
-  election_hash: string; // (prova q a cedula foi gerada baseada nos mesmos parametros de eleição do q os demais votantes) // Todas as cedulas precisam ter o mesmo hash de eleição, caso contrario significa q a cedula foi gerada com parametros diferentes
-  election_uuid: string; // ID da eleição
+
+  /**
+   * Garante: que nao sera alterado mais nada no `answers`
+   * Como: concatena os hashes das respostas e gera um hash SHA256
+   * Unique: cada `answers` contem um nonce diferente, forçando hash diferentes, impedindo a reutilização da mesma `ballot_hash`
+   */
+  ballot_hash: string;
+
+  /**
+   * Garante: que o eleitor esta habilitado a votar, sem revelar sua identidade (anonimato)
+   * Como: alguma prova de que o eleitor esta na merkle tree
+   * Unique: cada prova contem um `nullifier` diferente impedindo que o eleitor vote mais de uma vez
+   */
+  voter_proof: string;
+
+  /**
+   * Garante: que q a cédula foi gerado por aplicativo homologado que possuir permissão para gerar cédulas
+   * Como: cada eleição tera sua propria ApiKey, que sera usada para assinar o `ballot_hash` e `election_hash`, ex: `sha256(ballot_hash + election_hash + apiKey)`
+   */
+  app_signature: string;
+
+  /**
+   * Garante: que a cédula foi gerada baseada nos mesmos parametros de eleição do q os demais votantes
+   * Todas as cedulas precisam ter o mesmo hash de eleição, caso contrario significa q a cedula foi gerada com parametros diferentes
+   *
+   * Como: gera um hash SHA256 do objeto eleição
+   */
+  election_hash: string;
+
+  /**
+   * Garante: que a cédula foi gerada para a eleição correta
+   * Como: ID da eleição
+   */
+  election_uuid: string;
+
+  /**
+   * Garante: Demonstra qual protocolo foi usado para gerar a cédula
+   * Como: Enumerador, ex: `Helios`, `ElGamal`, `Plaintext`, etc
+   */
   protocol: PshProtocolEnum;
 }

@@ -33,3 +33,31 @@ export interface IBallotHelios<T> {
   election_hash: string;
   election_uuid: string;
 }
+
+export interface IElectionHelios {
+  uuid: string;
+  name: string;
+  short_name: string;
+  description: string;
+  cast_url: string;
+  frozen_at: string;
+  openreg: boolean;
+  public_key: Record<string, string>;
+  questions: Array<{
+    question: string;
+    short_name: string;
+    answers: string[];
+    answer_urls: string[];
+    choice_type: string;
+    max: number;
+    min: number;
+    tally_type: string;
+    result_type: string;
+    randomize_answer_order: boolean;
+  }>;
+  use_voter_aliases: boolean;
+  voters_hash: string | null;
+  election_hash?: string;
+  voting_ends_at: string;
+  voting_starts_at: string;
+}

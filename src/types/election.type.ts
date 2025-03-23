@@ -24,8 +24,8 @@ export interface IElection {
   frozen_at: string;
   openreg: boolean;
   voters_hash: string | null;
+  election_hash: string | null;
   use_voter_aliases: boolean;
   voting_starts_at: string;
   voting_ends_at: string;
-  election_hash?: string;
 }

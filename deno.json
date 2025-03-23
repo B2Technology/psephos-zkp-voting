@@ -17,7 +17,8 @@
     "publish:npm": "npm publish dist/ --access public",
     "publish:deno": "deno publish",
     "test:cov": "deno test --coverage=.coverage && deno coverage --html .coverage",
-    "test:cov-check": "deno coverage --lcov --output=.coverage/coverage.lcov .coverage && deno coverage .coverage && deno --allow-read scripts/check_coverage.ts"
+    "test:cov-check": "deno coverage --lcov --output=.coverage/coverage.lcov .coverage && deno coverage .coverage && deno --allow-read scripts/check_coverage.ts",
+    "helios:gen": "deno run --allow-net --allow-read scripts/helios_generate.ts"
   },
   "imports": {
     "@psephos/elgamal": "jsr:@psephos/elgamal@^1.0.10",
