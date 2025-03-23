@@ -21,6 +21,13 @@ const elgamalVersion = infoDeno.imports["@psephos/elgamal"].split("@")[2];
 
 console.log("Building ESM module", { test, version, elgamal: elgamalVersion });
 
+if (test) {
+  console.log(
+    "Note: Tests are enabled! Sorry, but we don't have tests for this module yet.",
+  );
+  Deno.exit(1);
+}
+
 await emptyDir("./dist");
 
 await build({

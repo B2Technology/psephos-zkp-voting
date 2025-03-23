@@ -27,6 +27,7 @@ const election: IElection = {
   use_voter_aliases: false,
   uuid: "10e130ca-fcb1-11ef-838c-524d690e78c8",
   voters_hash: null,
+  election_hash: null,
   voting_ends_at: "2032-06-17 12:00:00",
   voting_starts_at: "2025-01-13 12:00:00",
 };
