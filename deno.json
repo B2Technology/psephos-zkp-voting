@@ -21,8 +21,7 @@
     "helios:gen": "deno run --allow-net --allow-read scripts/helios_generate.ts"
   },
   "imports": {
-    "@psephos/elgamal": "jsr:@psephos/elgamal@^1.0.10",
-    "@std/assert": "jsr:@std/assert@^1.0.11"
+    "@psephos/elgamal": "jsr:@psephos/elgamal@^1.0.10"
   },
   "exclude": [
     "dist/",

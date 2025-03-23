@@ -1,4 +1,4 @@
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "jsr:@std/assert";
 import { objectToSha256, sha256 } from "../../src/utils/index.ts";
 
 Deno.test("Helpers::sha256", async () => {

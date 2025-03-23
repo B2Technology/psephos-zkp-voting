@@ -2,7 +2,7 @@ import {
   assertEquals,
   assertExists,
   equal,
-} from "@std/assert";
+} from "jsr:@std/assert";
 import type { IAnswerAuditableHelios } from "../../../src/protocols/helios/types.ts";
 import { BallotFactory } from "../../../src/ballot/index.ts";
 import { PshProtocolEnum } from "../../../src/types/index.ts";

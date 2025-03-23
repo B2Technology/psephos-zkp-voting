@@ -1,5 +1,5 @@
 // REF: https://deno.com/blog/publish-esm-cjs-module-dnt
-import { build, emptyDir } from "https://deno.land/x/dnt/mod.ts";
+import { build, emptyDir } from "jsr:@deno/dnt@^0.41.3";
 import { parseArgs } from "jsr:@std/cli/parse-args";
 
 const args = parseArgs(Deno.args, {
@@ -20,13 +20,6 @@ const version = args.version || infoDeno.version;
 const elgamalVersion = infoDeno.imports["@psephos/elgamal"].split("@")[2];
 
 console.log("Building ESM module", { test, version, elgamal: elgamalVersion });
-
-if (test) {
-  console.log(
-    "Note: Tests are enabled! Sorry, but we don't have tests for this module yet.",
-  );
-  Deno.exit(1);
-}
 
 await emptyDir("./dist");
 
@@ -60,7 +53,7 @@ await build({
     crypto: false,
   },
   test,
-  typeCheck: "single",
+  typeCheck: test? false : 'single',
   package: {
     name: infoDeno.name,
     version,
