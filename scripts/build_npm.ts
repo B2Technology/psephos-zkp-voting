@@ -28,19 +28,19 @@ await build({
     "./mod.ts",
     {
       name: "./ballot",
-      path: "./ballot.ts",
+      path: "ballot.ts",
     },
     {
       name: "./types",
-      path: "./types.ts",
+      path: "types.ts",
     },
     {
       name: "./utils",
-      path: "./utils.ts",
+      path: "utils.ts",
     },
     {
       name: "./validator",
-      path: "./validator.ts",
+      path: "validator.ts",
     },
   ],
   rootTestDir: "./tests",

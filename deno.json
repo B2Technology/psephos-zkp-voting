@@ -20,7 +20,8 @@
     "test:cov-check": "deno coverage --lcov --output=.coverage/coverage.lcov .coverage && deno coverage .coverage && deno --allow-read scripts/check_coverage.ts"
   },
   "imports": {
-    "@psephos/elgamal": "jsr:@psephos/elgamal@^1.0.7",
+    "@psephos/elgamal": "../elgamal-psephos/mod.ts",
+    "@psephos/elgamal/utils": "../elgamal-psephos/utils.ts",
     "@std/assert": "jsr:@std/assert@1"
   },
   "exclude": [
