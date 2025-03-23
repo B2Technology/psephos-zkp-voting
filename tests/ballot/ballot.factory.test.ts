@@ -40,13 +40,25 @@ const pkJSON: PublicKeyJSON = {
 
 const publicKey = PublicKey.fromJSON(pkJSON);
 
-Deno.test("BallotFactory", async () => {
+Deno.test("BallotFactory::ElGamal", async () => {
   const protocol = BallotFactory.ElGamal(election, publicKey);
   protocol.setAnswers(0, ["op 01"]);
 
   const ballot = await protocol.generateAuditable();
   console.log(ballot);
 });
+
+Deno.test("BallotFactory::Helios", async () => {
+  const protocol = BallotFactory.Helios(election, publicKey);
+  protocol.setAnswers(0, ["op 01"]);
+
+  // const ballotPsh = await protocol.generateAuditable();
+  // console.log(ballotPsh);
+
+  const ballotHelios = await protocol.toAuditableHeliosObject();
+  console.log(JSON.stringify(ballotHelios, null, 2));
+});
+
 // TODO simular sem quantidade max
 // TODO simular sem quantidade max=1
 // TODO simular sem quantidade max=2

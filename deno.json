@@ -22,7 +22,8 @@
   "imports": {
     "@psephos/elgamal": "../elgamal-psephos/mod.ts",
     "@psephos/elgamal/utils": "../elgamal-psephos/utils.ts",
-    "@std/assert": "jsr:@std/assert@1"
+    "@std/assert": "jsr:@std/assert@1",
+    "@std/expect": "jsr:@std/expect@^1.0.13"
   },
   "exclude": [
     "dist/",

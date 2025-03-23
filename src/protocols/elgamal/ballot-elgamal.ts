@@ -16,68 +16,25 @@ import type {
   IQuestion,
 } from "../../types/index.ts";
 import { PshProtocolEnum } from "../../types/index.ts";
+import { BallotBase } from "../base/ballot-base.ts";
 import type { IAnswerAuditableElGamal, IAnswerElGamal } from "./types.ts";
 import { EncryptedAnswer } from "./encrypted-answer.ts";
 
-// TODO separar em uma class generica alguns metodos
 // TODO copiar alguns metodos para Interface
 
-export class BallotElGamal implements IBallotGenerate {
-  private readonly answers = new Map<number, number[]>(); // question index -> answer index
+export class BallotElGamal extends BallotBase implements IBallotGenerate {
+  protected readonly publicKey: PublicKey;
 
   constructor(
-    public readonly election: IElection,
-    public readonly publicKey: PublicKey,
+    election: IElection,
+    publicKey: PublicKey,
   ) {
+    super(election);
+    this.publicKey = publicKey;
   }
 
-  getAnswer(questionIndex: number): number[] {
-    return this.answers.get(questionIndex) || [];
-  }
-
-  getAnswers(): Array<number[]> {
-    const answers: Array<number[]> = [];
-
-    this.election.questions.forEach((_question, index) => {
-      answers.push(this.getAnswer(index));
-    });
-
-    return answers;
-  }
-
-  setAnswers(questionIndex: number, answers: string[]) {
-    const question = this.election.questions[questionIndex];
-    if (!question) {
-      throw new Error("Question not found");
-    }
-
-    const answersIndex = answers.map((a) => question.answers.indexOf(a));
-
-    const hasInvalidAnswer = answersIndex.some((index) => index === -1);
-    if (hasInvalidAnswer) {
-      throw new Error("Invalid answer");
-    }
-
-    const hasDuplicateAnswer = answersIndex.some((index, i) =>
-      answersIndex.indexOf(index) !== i
-    );
-    if (hasDuplicateAnswer) {
-      throw new Error("Duplicate answer");
-    }
-
-    if (answersIndex.length < question.min) {
-      throw new Error(
-        `Invalid min answers: ${answers.length} < ${question.min}`,
-      );
-    }
-
-    if (answersIndex.length > question.max) {
-      throw new Error(
-        `Invalid max answers: ${answers.length} > ${question.max}`,
-      );
-    }
-
-    this.answers.set(questionIndex, answersIndex);
+  getProtocol(): PshProtocolEnum {
+    return PshProtocolEnum.ElGamal;
   }
 
   generate(): Promise<IBallot<IAnswerElGamal>> {
@@ -89,22 +46,24 @@ export class BallotElGamal implements IBallotGenerate {
     return result as IBallot<IAnswerAuditableElGamal>;
   }
 
-  private async _generate(
+  protected async _generate(
     auditable: boolean,
+    randomness?: BigInteger[],
   ): Promise<IBallot<IAnswerElGamal | IAnswerAuditableElGamal>> {
     return {
-      answers: await this._encryptAnswers(auditable),
+      answers: await this._encryptAnswers(auditable, randomness),
       election_hash: "fake-hash", // TODO (criar metodo electionHash(elec) ) this.election.election_hash || this.election.get_hash(),
       ballot_hash: "fake-hash",
       app_signature: "fake-signature",
       voter_proof: "fake-proof",
       election_uuid: this.election.uuid,
-      protocol: PshProtocolEnum.ElGamal,
+      protocol: this.getProtocol(),
     };
   }
 
-  private async _encryptAnswers(
+  protected async _encryptAnswers(
     auditable?: boolean,
+    randomness?: BigInteger[],
   ): Promise<IAnswerElGamal[]> {
     const answers = this.getAnswers();
     const ballot: IAnswerElGamal[] = [];
@@ -116,6 +75,7 @@ export class BallotElGamal implements IBallotGenerate {
       const encryptedAnswer = await this._doEncryption(
         question,
         answer,
+        randomness,
       );
 
       ballot[index] = auditable
@@ -126,7 +86,7 @@ export class BallotElGamal implements IBallotGenerate {
     return ballot;
   }
 
-  private async _doEncryption(
+  protected async _doEncryption(
     question: IQuestion,
     answer: number[],
     randomness?: BigInteger[],
@@ -144,7 +104,11 @@ export class BallotElGamal implements IBallotGenerate {
 
     // keep track of whether we need to generate new randomness
     let generate_new_randomness = false;
-    if (!randomness) {
+    if (randomness?.length && randomness.length !== question.answers.length) {
+      throw new Error(
+        "randomness length does not match question answers length",
+      );
+    } else if(!randomness) {
       randomness = [];
       generate_new_randomness = true;
     }

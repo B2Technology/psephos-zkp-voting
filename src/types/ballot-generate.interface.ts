@@ -5,4 +5,5 @@ import type { IBallot } from "./ballot.type.ts";
 export interface IBallotGenerate {
   election: IElection;
   generate(): Promise<IBallot<unknown>>;
+  generateAuditable(): Promise<IBallot<unknown>>;
 }
