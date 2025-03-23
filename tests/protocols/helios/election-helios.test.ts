@@ -1,4 +1,4 @@
-import { assertEquals, assertExists, equal } from "@std/assert";
+import { assertEquals, assertExists, equal } from "https://deno.land/std@0.192.0/testing/asserts.ts";
 import { ElectionHelios } from "../../../src/protocols/helios/election-helios.ts";
 import { BallotFactory } from "../../../src/ballot/index.ts";
 import {
