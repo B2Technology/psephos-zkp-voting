@@ -24,7 +24,9 @@ export class ElectionHelios {
       description: e.description,
       short_name: e.short_name,
       name: e.name,
-      questions: e.questions.map((q:any) => ElectionHelios.questionFromHelios(q)),
+      questions: e.questions.map((q: any) =>
+        ElectionHelios.questionFromHelios(q)
+      ),
       cast_url: e.cast_url,
       frozen_at: e.frozen_at,
       openreg: e.openreg,

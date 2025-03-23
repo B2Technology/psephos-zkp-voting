@@ -1,4 +1,9 @@
-import type {IBallot, IBallotGenerate, IElection, PshProtocolEnum} from "../../types/index.ts";
+import type {
+  IBallot,
+  IBallotGenerate,
+  IElection,
+  PshProtocolEnum,
+} from "../../types/index.ts";
 
 // TODO copiar alguns metodos para Interface
 

@@ -23,10 +23,10 @@ export class BallotHelios extends BallotElGamal implements IBallotGenerate {
     return PshProtocolEnum.Helios;
   }
 
-  async toAuditableHeliosObject(randomness?: BigInteger[]): Promise<
+  async toAuditableHeliosObject(): Promise<
     IBallotHelios<IAnswerAuditableHelios>
   > {
-    const result = await this._generate(true, randomness);
+    const result = await this._generate(true);
 
     return {
       answers: result.answers.map((as) =>

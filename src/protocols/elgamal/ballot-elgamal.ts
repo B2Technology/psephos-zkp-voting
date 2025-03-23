@@ -108,7 +108,7 @@ export class BallotElGamal extends BallotBase implements IBallotGenerate {
       throw new Error(
         "randomness length does not match question answers length",
       );
-    } else if(!randomness) {
+    } else if (!randomness) {
       randomness = [];
       generate_new_randomness = true;
     }
