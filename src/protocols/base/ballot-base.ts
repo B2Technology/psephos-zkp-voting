@@ -8,11 +8,12 @@ import type {
 // TODO copiar alguns metodos para Interface
 
 export abstract class BallotBase implements IBallotGenerate {
-  protected readonly answers = new Map<number, number[]>(); // question index -> answer index
+  protected readonly answers: Map<number, number[]>; // question index -> answer index
 
   protected constructor(
     public readonly election: IElection,
   ) {
+    this.answers = new Map();
   }
 
   abstract getProtocol(): PshProtocolEnum;

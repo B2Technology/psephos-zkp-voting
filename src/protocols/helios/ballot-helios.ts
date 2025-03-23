@@ -1,5 +1,4 @@
 import type { ZKProofJSON } from "@psephos/elgamal";
-import type { BigInteger } from "@psephos/elgamal/utils";
 import {
   type IBallot,
   type IBallotGenerate,

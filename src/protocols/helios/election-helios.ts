@@ -1,8 +1,9 @@
 import type { PublicKey } from "@psephos/elgamal";
 import type { IElection } from "../../types/index.ts";
-import { IQuestion } from "../../types/index.ts";
+import type { IQuestion } from "../../types/index.ts";
 
 export class ElectionHelios {
+  // deno-lint-ignore no-explicit-any
   static questionFromHelios(q: Record<string, any>): IQuestion {
     return {
       answer_urls: q.answer_urls,
@@ -18,13 +19,15 @@ export class ElectionHelios {
     };
   }
 
+  // deno-lint-ignore no-explicit-any
   static modelFromHelios(e: Record<string, any>): IElection {
     return {
       uuid: e.uuid,
       description: e.description,
       short_name: e.short_name,
       name: e.name,
-      questions: e.questions.map((q: any) =>
+      // deno-lint-ignore no-explicit-any
+      questions: e.questions.map((q: Record<string, any>) =>
         ElectionHelios.questionFromHelios(q)
       ),
       cast_url: e.cast_url,
@@ -41,7 +44,7 @@ export class ElectionHelios {
   static makeHash(e: IElection, publicKey: PublicKey): Promise<string> {
     const pk = publicKey.toJSON();
 
-    const stringify = (dt: any): string =>
+    const stringify = (dt: unknown): string =>
       JSON.stringify(dt).replaceAll('","', '", "');
 
     const template = [

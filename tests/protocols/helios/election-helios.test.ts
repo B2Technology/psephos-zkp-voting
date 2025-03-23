@@ -1,4 +1,4 @@
-import { assertEquals, assertExists, assertObjectMatch } from "@std/assert";
+import { assertEquals, assertExists, equal } from "@std/assert";
 import { ElectionHelios } from "../../../src/protocols/helios/election-helios.ts";
 import { BallotFactory } from "../../../src/ballot/index.ts";
 import {
@@ -29,9 +29,9 @@ Deno.test("ElectionHelios::makeHash", async () => {
   assertEquals(ballotHelios.election_hash, EXPECTED_BALLOT.election_hash);
   assertEquals(ballotHelios.election_uuid, EXPECTED_BALLOT.election_uuid);
   assertEquals(ballotHelios.answers.length, 1);
-  assertObjectMatch(
+  equal(
     ballotHelios.answers[0].answer,
-    EXPECTED_BALLOT.answers[0].answer as any,
+    EXPECTED_BALLOT.answers[0].answer,
   );
   assertEquals(ballotHelios.answers[0].choices.length, 2);
   assertExists(ballotHelios.answers[0].choices[0].alpha);
