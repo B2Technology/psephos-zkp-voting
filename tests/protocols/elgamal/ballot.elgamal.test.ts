@@ -1,6 +1,6 @@
 import { PublicKey, type PublicKeyJSON } from "@psephos/elgamal";
-import type { IElection } from "../../src/types/index.ts";
-import { BallotFactory } from "../../src/ballot/index.ts";
+import type { IElection } from "../../../src/types/index.ts";
+import { BallotFactory } from "../../../src/ballot/index.ts";
 
 const election: IElection = {
   cast_url:
@@ -41,23 +41,20 @@ const pkJSON: PublicKeyJSON = {
 
 const publicKey = PublicKey.fromJSON(pkJSON);
 
-Deno.test("BallotFactory::ElGamal", async () => {
+Deno.test("BallotElGamal::generate", async () => {
+  const protocol = BallotFactory.ElGamal(election, publicKey);
+  protocol.setAnswers(0, ["op 01"]);
+
+  const ballot = await protocol.generate();
+  console.log(ballot);
+});
+
+Deno.test("BallotElGamal::generateAuditable", async () => {
   const protocol = BallotFactory.ElGamal(election, publicKey);
   protocol.setAnswers(0, ["op 01"]);
 
   const ballot = await protocol.generateAuditable();
   console.log(ballot);
-});
-
-Deno.test("BallotFactory::Helios", async () => {
-  const protocol = BallotFactory.Helios(election, publicKey);
-  protocol.setAnswers(0, ["op 01"]);
-
-  // const ballotPsh = await protocol.generateAuditable();
-  // console.log(ballotPsh);
-
-  const ballotHelios = await protocol.toAuditableHeliosObject();
-  console.log(JSON.stringify(ballotHelios, null, 2));
 });
 
 // TODO simular sem quantidade max

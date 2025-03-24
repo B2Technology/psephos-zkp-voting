@@ -1,4 +1,3 @@
-
 export async function sha256(stringToHash: string): Promise<string> {
   const encoder = new TextEncoder();
   const data = encoder.encode(stringToHash);
@@ -9,5 +8,5 @@ export async function sha256(stringToHash: string): Promise<string> {
 }
 
 export function objectToSha256(data: Record<string, unknown>): Promise<string> {
-   return sha256(JSON.stringify(data))
+  return sha256(JSON.stringify(data));
 }

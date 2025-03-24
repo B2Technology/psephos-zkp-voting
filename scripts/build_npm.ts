@@ -53,7 +53,7 @@ await build({
     crypto: false,
   },
   test,
-  typeCheck: test? false : 'single',
+  typeCheck: test ? false : "single",
   package: {
     name: infoDeno.name,
     version,

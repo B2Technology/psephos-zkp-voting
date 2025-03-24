@@ -2,7 +2,10 @@
 import { Input } from "https://deno.land/x/cliffy@v1.0.0-rc.3/prompt/mod.ts";
 import { Select } from "https://deno.land/x/cliffy@v1.0.0-rc.3/prompt/select.ts";
 import { colors } from "https://deno.land/x/cliffy@v1.0.0-rc.3/ansi/colors.ts";
-import { PublicKey, type PublicKeyJSON } from "https://jsr.io/@psephos/elgamal/1.0.10/src/index.ts";
+import {
+  PublicKey,
+  type PublicKeyJSON,
+} from "https://jsr.io/@psephos/elgamal/1.0.10/src/index.ts";
 import type { IElectionHelios } from "../src/protocols/helios/types.ts";
 import { ElectionHelios } from "../src/protocols/helios/election-helios.ts";
 import { BallotFactory } from "../src/ballot/index.ts";
@@ -49,7 +52,9 @@ async function main() {
     // Transformar resposta em JSON
     const electionData: IElectionHelios = await response.json();
 
-    const PUBLIC_KEY = PublicKey.fromJSON(electionData.public_key as PublicKeyJSON);
+    const PUBLIC_KEY = PublicKey.fromJSON(
+      electionData.public_key as PublicKeyJSON,
+    );
     const ELECTION = ElectionHelios.modelFromHelios(electionData);
     const protocol = BallotFactory.Helios(ELECTION, PUBLIC_KEY);
 
