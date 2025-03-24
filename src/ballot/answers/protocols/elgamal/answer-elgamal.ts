@@ -9,20 +9,20 @@ import {
   generatePlaintexts,
   randomMpzLt,
 } from "@psephos/elgamal/utils";
-import type { IBallot } from "../../types/index.ts";
 import type {
-  IBallotGenerate,
+  IAnswerGenerate,
+  IAnswers,
   IElection,
   IQuestion,
-} from "../../types/index.ts";
-import { PshProtocolEnum } from "../../types/index.ts";
-import { BallotBase } from "../base/ballot-base.ts";
+} from "../../../../types/index.ts";
+import { PshAnswerProtocolEnum } from "../../../../types/index.ts";
+import { AnswerBase } from "../base/answer-base.ts";
 import type { IAnswerAuditableElGamal, IAnswerElGamal } from "./types.ts";
-import { EncryptedAnswer } from "./encrypted-answer.ts";
+import { EncryptedAnswerElgamal } from "./encrypted-answer-elgamal.ts";
 
 // TODO copiar alguns metodos para Interface
 
-export class BallotElGamal extends BallotBase implements IBallotGenerate {
+export class AnswerElgamal extends AnswerBase implements IAnswerGenerate {
   protected readonly publicKey: PublicKey;
 
   constructor(
@@ -33,54 +33,43 @@ export class BallotElGamal extends BallotBase implements IBallotGenerate {
     this.publicKey = publicKey;
   }
 
-  getProtocol(): PshProtocolEnum {
-    return PshProtocolEnum.ElGamal;
+  getProtocol(): PshAnswerProtocolEnum {
+    return PshAnswerProtocolEnum.ElGamal;
   }
 
-  generate(): Promise<IBallot<IAnswerElGamal>> {
-    return this._generate(false);
-  }
+  async generate(): Promise<IAnswers<IAnswerElGamal>> {
+    const answers = await this._encryptAnswers();
 
-  async generateAuditable(): Promise<IBallot<IAnswerAuditableElGamal>> {
-    const result = await this._generate(true);
-    return result as IBallot<IAnswerAuditableElGamal>;
-  }
-
-  protected async _generate(
-    auditable: boolean,
-    randomness?: BigInteger[],
-  ): Promise<IBallot<IAnswerElGamal | IAnswerAuditableElGamal>> {
     return {
-      answers: await this._encryptAnswers(auditable, randomness),
-      election_hash: "fake-hash", // TODO (criar metodo electionHash(elec) ) this.election.election_hash || this.election.get_hash(),
-      ballot_hash: "fake-hash",
-      app_signature: "fake-signature",
-      voter_proof: "fake-proof",
-      election_uuid: this.election.uuid,
+      proofs: answers.map((a) => a.toObject()),
+      protocol: this.getProtocol(),
+    };
+  }
+
+  async generateAuditable(): Promise<IAnswers<IAnswerAuditableElGamal>> {
+    const answers = await this._encryptAnswers();
+
+    return {
+      proofs: answers.map((a) => a.toAuditableObject()),
       protocol: this.getProtocol(),
     };
   }
 
   protected async _encryptAnswers(
-    auditable?: boolean,
     randomness?: BigInteger[],
-  ): Promise<IAnswerElGamal[]> {
+  ): Promise<EncryptedAnswerElgamal[]> {
     const answers = this.getAnswers();
-    const ballot: IAnswerElGamal[] = [];
+    const ballot: EncryptedAnswerElgamal[] = [];
 
     for (const index in this.election.questions) {
       const question = this.election.questions[index];
       const answer = answers[index];
 
-      const encryptedAnswer = await this._doEncryption(
+      ballot[index] = await this._doEncryption(
         question,
         answer,
         randomness,
       );
-
-      ballot[index] = auditable
-        ? encryptedAnswer.toAuditableObject()
-        : encryptedAnswer.toObject();
     }
 
     return ballot;
@@ -90,7 +79,7 @@ export class BallotElGamal extends BallotBase implements IBallotGenerate {
     question: IQuestion,
     answer: number[],
     randomness?: BigInteger[],
-  ): Promise<EncryptedAnswer> {
+  ): Promise<EncryptedAnswerElgamal> {
     const choices: Ciphertext[] = [];
     const individual_proofs: ZKDisjunctiveProof[] = [];
     let overall_proof: ZKDisjunctiveProof;
@@ -180,7 +169,7 @@ export class BallotElGamal extends BallotBase implements IBallotGenerate {
       );
     }
 
-    return new EncryptedAnswer(
+    return new EncryptedAnswerElgamal(
       choices,
       individual_proofs,
       overall_proof!,

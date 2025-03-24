@@ -8,7 +8,7 @@ import {
 } from "https://jsr.io/@psephos/elgamal/1.0.10/src/index.ts";
 import type { IElectionHelios } from "../src/ballot/answers/protocols/helios/types.ts";
 import { ElectionHelios } from "../src/ballot/answers/protocols/helios/election-helios.ts";
-import { AnswerFactory } from "../src/ballot/index.ts";
+import { PshAnswerFactory } from "../src/ballot/index.ts";
 
 /**
  * Função principal
@@ -56,7 +56,7 @@ async function main() {
       electionData.public_key as PublicKeyJSON,
     );
     const ELECTION = ElectionHelios.modelFromHelios(electionData);
-    const protocol = AnswerFactory.Helios(ELECTION, PUBLIC_KEY);
+    const protocol = PshAnswerFactory.Helios(ELECTION, PUBLIC_KEY);
 
     // Exibir informações da eleição
     console.log(colors.bold.green("\nEleição encontrada:"));

@@ -1,13 +1,13 @@
 import type {
-  IBallot,
-  IBallotGenerate,
+  IAnswerGenerate,
+  IAnswers,
   IElection,
-  PshProtocolEnum,
-} from "../../types/index.ts";
+  PshAnswerProtocolEnum,
+} from "../../../../types/index.ts";
 
 // TODO copiar alguns metodos para Interface
 
-export abstract class BallotBase implements IBallotGenerate {
+export abstract class AnswerBase implements IAnswerGenerate {
   protected readonly answers: Map<number, number[]>; // question index -> answer index
 
   protected constructor(
@@ -16,11 +16,11 @@ export abstract class BallotBase implements IBallotGenerate {
     this.answers = new Map();
   }
 
-  abstract getProtocol(): PshProtocolEnum;
+  abstract getProtocol(): PshAnswerProtocolEnum;
 
-  abstract generate(): Promise<IBallot<unknown>>;
+  abstract generate(): Promise<IAnswers<unknown>>;
 
-  abstract generateAuditable(): Promise<IBallot<unknown>>;
+  abstract generateAuditable(): Promise<IAnswers<unknown>>;
 
   getAnswer(questionIndex: number): number[] {
     return this.answers.get(questionIndex) || [];
@@ -43,10 +43,11 @@ export abstract class BallotBase implements IBallotGenerate {
     }
 
     const answersIndex = answers.map((a) => question.answers.indexOf(a));
-
     const hasInvalidAnswer = answersIndex.some((index) => index === -1);
     if (hasInvalidAnswer) {
-      throw new Error("Invalid answer");
+      throw new Error(
+        `Invalid answer! Available answers: ${question.answers.join(", ")}`,
+      );
     }
 
     const hasDuplicateAnswer = answersIndex.some((index, i) =>

@@ -1,6 +1,6 @@
 import type { PublicKey } from "@psephos/elgamal";
-import type { IElection } from "../../types/index.ts";
-import type { IQuestion } from "../../types/index.ts";
+import type { IElection } from "../../../../types/index.ts";
+import type { IQuestion } from "../../../../types/index.ts";
 import type { IElectionHelios } from "./types.ts";
 
 export class ElectionHelios {

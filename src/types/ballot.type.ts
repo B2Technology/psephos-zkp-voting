@@ -1,12 +1,32 @@
-import type { PshProtocolEnum } from "./enums.ts";
+import type {
+  PshAnswerProtocolEnum,
+  PshIdentityProtocolEnum,
+} from "./enums.ts";
 
-export interface IBallot<T> {
+export interface IAnswers<A> {
+  proofs: A[];
+  protocol: PshAnswerProtocolEnum;
+}
+
+export interface IIdentity<I> {
+  proof: I;
+  protocol: PshIdentityProtocolEnum;
+}
+
+export interface IBallot<A, I> {
   /**
    * Registra os votos do eleitor
    * Como: cada objeto da lista `answers` é uma resposta a uma pergunta, que foi criptografada com a chave pública da eleição
    * Garante: as provas contidas no objeto, demonstra que é um voto válido e sem duplicação de escolhas
    */
-  answers: T[];
+  answers: IAnswers<A>[];
+
+  /**
+   * Garante: que o eleitor esta habilitado a votar, sem revelar sua identidade (anonimato)
+   * Como: alguma prova de que o eleitor esta na merkle tree
+   * Unique: cada prova contem um `nullifier` diferente impedindo que o eleitor vote mais de uma vez
+   */
+  identity: IIdentity<I>;
 
   /**
    * Garante: que nao sera alterado mais nada no `answers`
@@ -14,13 +34,6 @@ export interface IBallot<T> {
    * Unique: cada `answers` contem um nonce diferente, forçando hash diferentes, impedindo a reutilização da mesma `ballot_hash`
    */
   ballot_hash: string;
-
-  /**
-   * Garante: que o eleitor esta habilitado a votar, sem revelar sua identidade (anonimato)
-   * Como: alguma prova de que o eleitor esta na merkle tree
-   * Unique: cada prova contem um `nullifier` diferente impedindo que o eleitor vote mais de uma vez
-   */
-  voter_proof: string;
 
   /**
    * Garante: que q a cédula foi gerado por aplicativo homologado que possuir permissão para gerar cédulas
@@ -41,10 +54,4 @@ export interface IBallot<T> {
    * Como: ID da eleição
    */
   election_uuid: string;
-
-  /**
-   * Garante: Demonstra qual protocolo foi usado para gerar a cédula
-   * Como: Enumerador, ex: `Helios`, `ElGamal`, `Plaintext`, etc
-   */
-  protocol: PshProtocolEnum;
 }

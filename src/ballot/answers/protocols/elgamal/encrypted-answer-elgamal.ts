@@ -2,7 +2,7 @@ import type { Ciphertext, ZKDisjunctiveProof } from "@psephos/elgamal";
 import type { BigInteger } from "@psephos/elgamal/utils";
 import type { IAnswerAuditableElGamal, IAnswerElGamal } from "./types.ts";
 
-export class EncryptedAnswer {
+export class EncryptedAnswerElgamal {
   constructor(
     public readonly choices: Array<Ciphertext>,
     public readonly individual_proofs: Array<ZKDisjunctiveProof>,

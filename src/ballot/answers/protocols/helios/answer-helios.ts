@@ -1,10 +1,10 @@
 import type { ZKProofJSON } from "@psephos/elgamal";
 import {
-  type IBallot,
-  type IBallotGenerate,
-  PshProtocolEnum,
-} from "../../types/index.ts";
-import { BallotElGamal } from "../elgamal/ballot-elgamal.ts";
+  type IAnswerGenerate,
+  type IAnswers,
+  PshAnswerProtocolEnum,
+} from "../../../../types/index.ts";
+import { AnswerElgamal } from "../elgamal/answer-elgamal.ts";
 import type {
   IAnswerAuditableElGamal,
   IAnswerElGamal,
@@ -17,18 +17,18 @@ import type {
   ProofHelios,
 } from "./types.ts";
 
-export class BallotHelios extends BallotElGamal implements IBallotGenerate {
-  override getProtocol(): PshProtocolEnum {
-    return PshProtocolEnum.Helios;
+export class AnswerHelios extends AnswerElgamal implements IAnswerGenerate {
+  override getProtocol(): PshAnswerProtocolEnum {
+    return PshAnswerProtocolEnum.Helios;
   }
 
   async toAuditableHeliosObject(): Promise<
     IBallotHelios<IAnswerAuditableHelios>
   > {
-    const result = await this._generate(true);
+    const result = await this.generateAuditable();
 
     return {
-      answers: result.answers.map((as) =>
+      answers: result.proofs.map((as) =>
         this.transformAnswerToHelios(as, true) as IAnswerAuditableHelios
       ),
       election_hash: await ElectionHelios.makeHash(
@@ -40,10 +40,10 @@ export class BallotHelios extends BallotElGamal implements IBallotGenerate {
   }
 
   async toHeliosObject(): Promise<IBallotHelios<IAnswerHelios>> {
-    const result = await this._generate(false);
+    const result = await this.generate();
 
     return {
-      answers: result.answers.map((as) => this.transformAnswerToHelios(as)),
+      answers: result.proofs.map((as) => this.transformAnswerToHelios(as)),
       election_hash: await ElectionHelios.makeHash(
         this.election,
         this.publicKey,
@@ -52,13 +52,24 @@ export class BallotHelios extends BallotElGamal implements IBallotGenerate {
     };
   }
 
-  override generate(): Promise<IBallot<IAnswerHelios>> {
-    return this._generate(false);
+  override async generate(): Promise<IAnswers<IAnswerHelios>> {
+    const answers = await this._encryptAnswers();
+
+    return {
+      proofs: answers.map((a) => a.toObject()),
+      protocol: this.getProtocol(),
+    };
   }
 
-  override async generateAuditable(): Promise<IBallot<IAnswerAuditableHelios>> {
-    const result = await this._generate(true);
-    return result as IBallot<IAnswerAuditableHelios>;
+  override async generateAuditable(): Promise<
+    IAnswers<IAnswerAuditableHelios>
+  > {
+    const answers = await this._encryptAnswers();
+
+    return {
+      proofs: answers.map((a) => a.toAuditableObject()),
+      protocol: this.getProtocol(),
+    };
   }
 
   private transformAnswerToHelios(
