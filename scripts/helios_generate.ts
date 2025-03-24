@@ -6,9 +6,9 @@ import {
   PublicKey,
   type PublicKeyJSON,
 } from "https://jsr.io/@psephos/elgamal/1.0.10/src/index.ts";
-import type { IElectionHelios } from "../src/protocols/helios/types.ts";
-import { ElectionHelios } from "../src/protocols/helios/election-helios.ts";
-import { BallotFactory } from "../src/ballot/index.ts";
+import type { IElectionHelios } from "../src/ballot/answers/protocols/helios/types.ts";
+import { ElectionHelios } from "../src/ballot/answers/protocols/helios/election-helios.ts";
+import { AnswerFactory } from "../src/ballot/index.ts";
 
 /**
  * Função principal
@@ -22,7 +22,7 @@ async function main() {
   const electionId = await Input.prompt({
     message: "Digite o ID da eleição:",
     validate: (input) => input.trim() !== "" || "O ID não pode estar vazio",
-    default: "b3b99f04-fed2-11ee-9eff-2a72e601f5ab",
+    default: "17e64df2-08f4-11f0-8552-7acc2c7598e2",
   });
 
   // Mostrar mensagem de carregamento
@@ -56,7 +56,7 @@ async function main() {
       electionData.public_key as PublicKeyJSON,
     );
     const ELECTION = ElectionHelios.modelFromHelios(electionData);
-    const protocol = BallotFactory.Helios(ELECTION, PUBLIC_KEY);
+    const protocol = AnswerFactory.Helios(ELECTION, PUBLIC_KEY);
 
     // Exibir informações da eleição
     console.log(colors.bold.green("\nEleição encontrada:"));

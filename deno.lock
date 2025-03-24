@@ -31,6 +31,7 @@
     "npm:@psephos/elgamal@1.0.6": "1.0.6",
     "npm:@semaphore-protocol/core@^4.9.1": "4.9.1_@semaphore-protocol+group@4.9.1_@semaphore-protocol+identity@4.9.1",
     "npm:@types/node@*": "22.12.0",
+    "npm:ethers@*": "6.13.4",
     "npm:web-worker@*": "1.2.0"
   },
   "jsr": {
