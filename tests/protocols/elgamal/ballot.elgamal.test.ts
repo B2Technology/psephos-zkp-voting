@@ -1,4 +1,10 @@
 import { PublicKey, type PublicKeyJSON } from "@psephos/elgamal";
+import {
+  generateProof,
+  Group,
+  Identity,
+  verifyProof,
+} from "@semaphore-protocol/core";
 import type { IElection } from "../../../src/types/index.ts";
 import { BallotFactory } from "../../../src/ballot/index.ts";
 
@@ -40,6 +46,21 @@ const pkJSON: PublicKeyJSON = {
 };
 
 const publicKey = PublicKey.fromJSON(pkJSON);
+
+Deno.test("BallotElGamal::semaphore", async () => {
+  const group = new Group();
+
+  const identity = new Identity();
+
+  group.addMember(identity.commitment);
+
+  const scope = group.root;
+  const message = 1;
+
+  const proof = await generateProof(identity, group, message, scope);
+  const resultProof = await verifyProof(proof); // true or false.
+  console.log({ proof, commitment: identity.commitment, resultProof });
+});
 
 Deno.test("BallotElGamal::generate", async () => {
   const protocol = BallotFactory.ElGamal(election, publicKey);

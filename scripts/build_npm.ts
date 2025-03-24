@@ -18,8 +18,9 @@ const infoDeno = JSON.parse(Deno.readTextFileSync("deno.json"));
 const test = args.test === true;
 const version = args.version || infoDeno.version;
 const elgamalVersion = infoDeno.imports["@psephos/elgamal"].split("@")[2];
+const semaphoreVersion = infoDeno.imports["@semaphore-protocol/core"].split("@")[2];
 
-console.log("Building ESM module", { test, version, elgamal: elgamalVersion });
+console.log("Building ESM module", { test, version, elgamal: elgamalVersion,semaphore:semaphoreVersion });
 
 await emptyDir("./dist");
 
@@ -61,6 +62,7 @@ await build({
     license: infoDeno.license,
     dependencies: {
       "@psephos/elgamal": elgamalVersion,
+      "@semaphore-protocol/core": semaphoreVersion,
     },
     repository: {
       type: "git",
