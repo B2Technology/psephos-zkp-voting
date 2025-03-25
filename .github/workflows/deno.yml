@@ -33,7 +33,7 @@ jobs:
 
       - name: "🧪 Run tests"
         run: |
-          export NODE_OPTIONS="--max-old-space-size=4096"
+          deno install
           deno -A scripts/polyfills.ts
           deno task test:cov
 
