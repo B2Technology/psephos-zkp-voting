@@ -1,5 +1,5 @@
 import { assertEquals, assertExists, equal } from "jsr:@std/assert";
-import type { IAnswerAuditableHelios } from "../../../../../src/ballot/answers/protocols/helios/types.ts";
+import type { IAnswerAuditableHelios } from "../../../../../src/ballot/index.ts";
 import {
   type IAnswers,
   PshAnswerProtocolEnum,

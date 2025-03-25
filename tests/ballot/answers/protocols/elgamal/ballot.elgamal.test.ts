@@ -4,7 +4,7 @@ import {
   disjunctiveChallengeGenerator,
   generatePlaintexts,
 } from "@psephos/elgamal/utils";
-import type { IAnswerAuditableElGamal } from "../../../../../src/ballot/answers/protocols/elgamal/types.ts";
+import type { IAnswerAuditableElGamal } from "../../../../../src/ballot/index.ts";
 import { PshAnswerProtocolEnum } from "../../../../../src/types/index.ts";
 import { PshAnswerFactory } from "../../../../../src/ballot/index.ts";
 import { objectToSha256 } from "../../../../../src/utils/index.ts";

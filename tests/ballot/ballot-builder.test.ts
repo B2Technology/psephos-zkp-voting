@@ -1,5 +1,5 @@
 import { assertEquals, assertObjectMatch } from "jsr:@std/assert";
-import type { IAnswerPlaintext } from "../../src/ballot/answers/protocols/plaintext/types.ts";
+import type { IAnswerPlaintext } from "../../src/ballot/index.ts";
 import {
   PshAnswerProtocolEnum,
   PshIdentityProtocolEnum,

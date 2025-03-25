@@ -3,7 +3,7 @@ import type {
   IAnswerAuditableHelios,
   IBallotHelios,
   IElectionHelios,
-} from "../../../../../src/ballot/answers/protocols/helios/types.ts";
+} from "../../../../../src/ballot/index.ts";
 import {
   type IPshElection,
   PshAnswerProtocolEnum,
