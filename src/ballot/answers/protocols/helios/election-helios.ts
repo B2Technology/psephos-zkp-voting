@@ -1,11 +1,15 @@
 import type { PublicKey } from "@psephos/elgamal";
-import type { IElection } from "../../../../types/index.ts";
-import type { IQuestion } from "../../../../types/index.ts";
+import type { IPshElection } from "../../../../types/index.ts";
+import type { IPshQuestion } from "../../../../types/index.ts";
 import type { IElectionHelios } from "./types.ts";
+import {
+  PshAnswerProtocolEnum,
+  PshIdentityProtocolEnum,
+} from "../../../../types/index.ts";
 
 export class ElectionHelios {
   // deno-lint-ignore no-explicit-any
-  static questionFromHelios(q: Record<string, any>): IQuestion {
+  static questionFromHelios(q: Record<string, any>): IPshQuestion {
     return {
       answer_urls: q.answer_urls,
       answers: q.answers,
@@ -20,7 +24,7 @@ export class ElectionHelios {
     };
   }
 
-  static modelFromHelios(e: IElectionHelios): IElection {
+  static modelFromHelios(e: IElectionHelios): IPshElection {
     return {
       uuid: e.uuid,
       description: e.description,
@@ -38,10 +42,12 @@ export class ElectionHelios {
       voting_starts_at: e.voting_starts_at,
       voting_ends_at: e.voting_ends_at,
       election_hash: e.election_hash || null,
+      answer_protocol: PshAnswerProtocolEnum.Plaintext,
+      identity_protocol: PshIdentityProtocolEnum.Plaintext,
     };
   }
 
-  static makeHash(e: IElection, publicKey: PublicKey): Promise<string> {
+  static makeHash(e: IPshElection, publicKey: PublicKey): Promise<string> {
     const pk = publicKey.toJSON();
 
     const stringify = (dt: unknown): string =>

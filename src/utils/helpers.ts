@@ -7,6 +7,6 @@ export async function sha256(stringToHash: string): Promise<string> {
   return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-export function objectToSha256(data: Record<string, unknown>): Promise<string> {
+export function objectToSha256(data: unknown): Promise<string> {
   return sha256(JSON.stringify(data));
 }

@@ -1,5 +1,6 @@
-import { assertEquals, assertRejects } from "jsr:@std/assert";
+import type { CiphertextJSON } from "@psephos/elgamal";
 import { decodeBytes32String, toBeHex } from "npm:ethers";
+import { assertEquals, assertRejects } from "jsr:@std/assert";
 import { PshIdentityProtocolEnum } from "../../../src/types/index.ts";
 import { PshIdentityFactory } from "../../../src/ballot/index.ts";
 import { PUBLIC_KEY } from "../../stubs/contants.ts";
@@ -64,7 +65,7 @@ Deno.test("PshIdentityFactory::ElGamal", async () => {
     "string",
   );
   assertEquals(
-    typeof (result.proof as any).pk,
+    typeof (result as unknown as CiphertextJSON).pk,
     "undefined",
   );
 });

@@ -33,6 +33,13 @@
     "branches": 80,
     "lines": 80
   },
+  "lint": {
+    "exclude": [
+      "dist/",
+      ".coverage/",
+      "scripts/mods/"
+    ]
+  },
   "publish": {
     "include": [
       "src",
@@ -48,7 +55,8 @@
       "tests",
       "scripts",
       ".tmp",
-      "node_modules"
+      "node_modules",
+      "scripts/mods"
     ]
   }
 }

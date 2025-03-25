@@ -4,8 +4,10 @@ import {
   disjunctiveChallengeGenerator,
   generatePlaintexts,
 } from "@psephos/elgamal/utils";
+import type { IAnswerAuditableElGamal } from "../../../../../src/ballot/answers/protocols/elgamal/types.ts";
 import { PshAnswerProtocolEnum } from "../../../../../src/types/index.ts";
-import { AnswerFactory } from "../../../../../src/ballot/index.ts";
+import { PshAnswerFactory } from "../../../../../src/ballot/index.ts";
+import { objectToSha256 } from "../../../../../src/utils/index.ts";
 import {
   ELECTION_DATA,
   PUBLIC_KEY,
@@ -13,7 +15,7 @@ import {
 } from "../../../../stubs/contants.ts";
 
 Deno.test("AnswerElgamal::generate", async () => {
-  const protocol = AnswerFactory.ElGamal(ELECTION_DATA, PUBLIC_KEY);
+  const protocol = PshAnswerFactory.ElGamal(ELECTION_DATA, PUBLIC_KEY);
   protocol.setAnswers(0, ["ET Bilu"]);
 
   const answers = await protocol.generate();
@@ -24,8 +26,6 @@ Deno.test("AnswerElgamal::generate", async () => {
     ZKDisjunctiveProof.fromJsonProofs(proof)
   );
 
-  console.log(answers);
-
   assertEquals(answers.protocol, PshAnswerProtocolEnum.ElGamal);
   assertEquals(answers.proofs.length, ELECTION_DATA.questions.length);
   assertEquals(answers.proofs[0].individual_proofs.length, answersLength);
@@ -34,6 +34,15 @@ Deno.test("AnswerElgamal::generate", async () => {
   assertEquals(answers.proofs[0].choices.length, answersLength);
   assertEquals(typeof answers.proofs[0].choices[0].alpha, "string");
   assertEquals(typeof answers.proofs[0].choices[0].beta, "string");
+
+  // Nao deve aparecer os atributos de answer e randomness
+  const proofUnknown = answers.proofs[0] as IAnswerAuditableElGamal;
+  assertEquals(proofUnknown.answer, undefined);
+  assertEquals(proofUnknown.randomness, undefined);
+
+  // Check hashes
+  assertEquals(answers.hashes.length, answers.proofs.length);
+  assertEquals(await objectToSha256(answers.proofs[0]), answers.hashes[0]);
 
   // Primeira opção deve ser marcada com valor maior q zero
   const ciphertext01 = Ciphertext.fromData(choices[0], PUBLIC_KEY);
@@ -67,12 +76,14 @@ Deno.test("AnswerElgamal::generate", async () => {
 });
 
 Deno.test("AnswerElgamal::generateAuditable", async () => {
-  const protocol = AnswerFactory.ElGamal(ELECTION_DATA, PUBLIC_KEY);
+  const protocol = PshAnswerFactory.ElGamal(ELECTION_DATA, PUBLIC_KEY);
   protocol.setAnswers(0, ["ET Bilu"]);
 
-  const ballot = await protocol.generateAuditable();
-  console.log(ballot);
-  // TODO implementes mais tes
+  const answers = await protocol.generateAuditable();
+
+  // Deve aparecer os atributos de answer e randomness
+  assertEquals(answers.proofs[0].answer.length, 1);
+  assertEquals(answers.proofs[0].randomness.length, 2);
 });
 
 // TODO simular sem quantidade max

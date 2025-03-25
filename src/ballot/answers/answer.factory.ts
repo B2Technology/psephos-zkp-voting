@@ -1,7 +1,7 @@
 import type { PublicKey } from "@psephos/elgamal";
 import {
   type IAnswerGenerate,
-  type IElection,
+  type IPshElection,
   PshAnswerProtocolEnum,
 } from "../../types/index.ts";
 import { AnswerElgamal } from "./protocols/elgamal/answer-elgamal.ts";
@@ -10,7 +10,7 @@ import { AnswerHelios } from "./protocols/helios/answer-helios.ts";
 export class PshAnswerFactory {
   static make(
     protocol: PshAnswerProtocolEnum,
-    election: IElection,
+    election: IPshElection,
     publicKey: PublicKey,
   ): IAnswerGenerate {
     switch (protocol) {
@@ -25,11 +25,11 @@ export class PshAnswerFactory {
     }
   }
 
-  static ElGamal(election: IElection, publicKey: PublicKey): AnswerElgamal {
+  static ElGamal(election: IPshElection, publicKey: PublicKey): AnswerElgamal {
     return new AnswerElgamal(election, publicKey);
   }
 
-  static Helios(election: IElection, publicKey: PublicKey): AnswerHelios {
+  static Helios(election: IPshElection, publicKey: PublicKey): AnswerHelios {
     return new AnswerHelios(election, publicKey);
   }
 }

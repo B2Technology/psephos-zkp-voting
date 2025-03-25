@@ -1,9 +1,10 @@
 import type {
   IAnswerGenerate,
   IAnswers,
-  IElection,
+  IPshElection,
   PshAnswerProtocolEnum,
 } from "../../../../types/index.ts";
+import { objectToSha256 } from "../../../../utils/index.ts";
 
 // TODO copiar alguns metodos para Interface
 
@@ -11,7 +12,7 @@ export abstract class AnswerBase implements IAnswerGenerate {
   protected readonly answers: Map<number, number[]>; // question index -> answer index
 
   protected constructor(
-    public readonly election: IElection,
+    public readonly election: IPshElection,
   ) {
     this.answers = new Map();
   }
@@ -70,5 +71,9 @@ export abstract class AnswerBase implements IAnswerGenerate {
     }
 
     this.answers.set(questionIndex, answersIndex);
+  }
+
+  protected appendedHashes(proofs: unknown[]): Promise<string[]> {
+    return Promise.all(proofs.map((p) => objectToSha256(p)));
   }
 }

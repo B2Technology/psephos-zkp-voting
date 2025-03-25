@@ -54,9 +54,11 @@ export class AnswerHelios extends AnswerElgamal implements IAnswerGenerate {
 
   override async generate(): Promise<IAnswers<IAnswerHelios>> {
     const answers = await this._encryptAnswers();
+    const proofs = answers.map((a) => a.toObject());
 
     return {
-      proofs: answers.map((a) => a.toObject()),
+      proofs,
+      hashes: await this.appendedHashes(proofs),
       protocol: this.getProtocol(),
     };
   }
@@ -65,9 +67,11 @@ export class AnswerHelios extends AnswerElgamal implements IAnswerGenerate {
     IAnswers<IAnswerAuditableHelios>
   > {
     const answers = await this._encryptAnswers();
+    const proofs = answers.map((a) => a.toAuditableObject());
 
     return {
-      proofs: answers.map((a) => a.toAuditableObject()),
+      proofs,
+      hashes: await this.appendedHashes(proofs),
       protocol: this.getProtocol(),
     };
   }

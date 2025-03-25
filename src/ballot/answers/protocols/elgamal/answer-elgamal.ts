@@ -12,8 +12,8 @@ import {
 import type {
   IAnswerGenerate,
   IAnswers,
-  IElection,
-  IQuestion,
+  IPshElection,
+  IPshQuestion,
 } from "../../../../types/index.ts";
 import { PshAnswerProtocolEnum } from "../../../../types/index.ts";
 import { AnswerBase } from "../base/answer-base.ts";
@@ -26,7 +26,7 @@ export class AnswerElgamal extends AnswerBase implements IAnswerGenerate {
   protected readonly publicKey: PublicKey;
 
   constructor(
-    election: IElection,
+    election: IPshElection,
     publicKey: PublicKey,
   ) {
     super(election);
@@ -39,18 +39,22 @@ export class AnswerElgamal extends AnswerBase implements IAnswerGenerate {
 
   async generate(): Promise<IAnswers<IAnswerElGamal>> {
     const answers = await this._encryptAnswers();
+    const proofs = answers.map((a) => a.toObject());
 
     return {
-      proofs: answers.map((a) => a.toObject()),
+      proofs,
+      hashes: await this.appendedHashes(proofs),
       protocol: this.getProtocol(),
     };
   }
 
   async generateAuditable(): Promise<IAnswers<IAnswerAuditableElGamal>> {
     const answers = await this._encryptAnswers();
+    const proofs = answers.map((a) => a.toAuditableObject());
 
     return {
-      proofs: answers.map((a) => a.toAuditableObject()),
+      proofs,
+      hashes: await this.appendedHashes(proofs),
       protocol: this.getProtocol(),
     };
   }
@@ -76,7 +80,7 @@ export class AnswerElgamal extends AnswerBase implements IAnswerGenerate {
   }
 
   protected async _doEncryption(
-    question: IQuestion,
+    question: IPshQuestion,
     answer: number[],
     randomness?: BigInteger[],
   ): Promise<EncryptedAnswerElgamal> {

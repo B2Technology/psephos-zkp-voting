@@ -1,5 +1,9 @@
 import { type CryptoSystemJSON, KeyPair } from "@psephos/elgamal";
-import type { IElection } from "../../src/types/index.ts";
+import type { IPshElection } from "../../src/types/index.ts";
+import {
+  PshAnswerProtocolEnum,
+  PshIdentityProtocolEnum,
+} from "../../src/types/index.ts";
 
 // Parâmetros criptográficos para testes
 export const CRYPTO_PARAMS: CryptoSystemJSON = {
@@ -8,7 +12,7 @@ export const CRYPTO_PARAMS: CryptoSystemJSON = {
   q: "61329566248342901292543872769978950870633559608669337131139375508370458778917",
 };
 
-export const ELECTION_DATA: IElection = {
+export const ELECTION_DATA: IPshElection = {
   "cast_url":
     "https://vote.heliosvoting.org/helios/elections/b3b99f04-fed2-11ee-9eff-2a72e601f5ab/cast",
   "description": "teste",
@@ -42,6 +46,8 @@ export const ELECTION_DATA: IElection = {
   "election_hash": null,
   "voting_ends_at": "2024-09-20 12:00:00",
   "voting_starts_at": "2024-01-01 12:00:00",
+  "answer_protocol": PshAnswerProtocolEnum.Plaintext,
+  "identity_protocol": PshIdentityProtocolEnum.Plaintext,
 };
 
 const keys = KeyPair.fromJSON({

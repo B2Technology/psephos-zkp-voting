@@ -1,6 +1,12 @@
-import {generateProof, Group, Identity, type MerkleProof, type SemaphoreProof,} from "@semaphore-protocol/core";
-import type {IIdentity, IIdentityGenerate} from "../../../types/index.ts";
-import {PshIdentityProtocolEnum} from "../../../types/index.ts";
+import {
+  generateProof,
+  Group,
+  Identity,
+  type MerkleProof,
+  type SemaphoreProof,
+} from "@semaphore-protocol/core";
+import type { IIdentity, IIdentityGenerate } from "../../../types/index.ts";
+import { PshIdentityProtocolEnum } from "../../../types/index.ts";
 
 export class SemaphoreIdentity implements IIdentityGenerate {
   private _secret: string | null = null;
@@ -80,7 +86,7 @@ export class SemaphoreIdentity implements IIdentityGenerate {
    * Este metodo é apenas de teste!
    * Mostra como é gerado uma prova de Merkle do lado backend
    */
-  simulateMerkleProof() {
+  simulateMerkleProof(): MerkleProof {
     const identity = this.getIdentity();
 
     const group = new Group();

@@ -1,5 +1,5 @@
 import { assertEquals, assertObjectMatch } from "jsr:@std/assert";
-import { ElectionHelios } from "../../../src/protocols/helios/election-helios.ts";
+import { ElectionHelios } from "../../../../../src/ballot/answers/protocols/helios/election-helios.ts";
 import {
   ELECTION_DATA,
   EXPECTED_HASH,
