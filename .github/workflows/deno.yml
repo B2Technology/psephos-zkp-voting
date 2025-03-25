@@ -2,7 +2,7 @@ name: Deno
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
   pull_request:
   workflow_dispatch:
 
@@ -31,11 +31,11 @@ jobs:
       - name: "✅ Run check"
         run: deno check src
 
-      - name: "✅ Prepare tests"
-        run: deno -A scripts/polyfills.ts
-
       - name: "🧪 Run tests"
-        run: deno task test:cov
+        run: |
+          export NODE_OPTIONS="--max-old-space-size=4096"
+          deno -A scripts/polyfills.ts
+          deno task test:cov
 
       - name: "📊 Run check coverage"
         run: deno task test:cov-check
