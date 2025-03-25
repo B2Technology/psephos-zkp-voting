@@ -108,7 +108,7 @@ export class PshRSA {
         // Gerar o par de chaves assincronamente
         forge.pki.rsa.generateKeyPair(
           { bits },
-          (err: Error, keypair: { publicKey: string; privateKey: string }) => {
+          (err: Error, keypair: forge.pki.rsa.KeyPair) => {
             if (err) {
               reject(new Error(`Falha ao gerar par de chaves: ${err.message}`));
               return;
