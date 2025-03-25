@@ -1,1 +1,1 @@
-export { demo } from "./demo.ts";
+export { PshBallotBuilder } from "./ballot/ballot-builder.ts";

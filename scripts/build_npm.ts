@@ -1,5 +1,5 @@
 // REF: https://deno.com/blog/publish-esm-cjs-module-dnt
-import { build, emptyDir } from "https://deno.land/x/dnt/mod.ts";
+import { build, emptyDir } from "jsr:@deno/dnt@^0.41.3";
 import { parseArgs } from "jsr:@std/cli/parse-args";
 
 const args = parseArgs(Deno.args, {
@@ -17,8 +17,18 @@ const args = parseArgs(Deno.args, {
 const infoDeno = JSON.parse(Deno.readTextFileSync("deno.json"));
 const test = args.test === true;
 const version = args.version || infoDeno.version;
+const elgamalVersion = infoDeno.imports["@psephos/elgamal"].split("@")[2];
+const nodeForgeVersion = infoDeno.imports["node-forge"].split("@")[1];
+const semaphoreVersion =
+  infoDeno.imports["@semaphore-protocol/core"].split("@")[2];
 
-console.log("Building ESM module", { test, version });
+console.log("Building ESM module", {
+  test,
+  version,
+  elgamal: elgamalVersion,
+  semaphore: semaphoreVersion,
+  node_forge: nodeForgeVersion,
+});
 
 await emptyDir("./dist");
 
@@ -26,34 +36,45 @@ await build({
   entryPoints: [
     "./mod.ts",
     {
+      name: "./ballot",
+      path: "ballot.ts",
+    },
+    {
+      name: "./types",
+      path: "types.ts",
+    },
+    {
       name: "./utils",
-      path: "./utils.ts",
+      path: "utils.ts",
+    },
+    {
+      name: "./validator",
+      path: "validator.ts",
     },
   ],
   rootTestDir: "./tests",
   outDir: "./dist",
   compilerOptions: {
     lib: ["ES2021", "DOM"],
-    target: "ES2021",
   },
   shims: {
     deno: test,
     crypto: false,
   },
+  test,
+  typeCheck: test ? false : "single",
   package: {
     name: infoDeno.name,
     version,
     description: infoDeno.description,
     license: infoDeno.license,
-    exports: {
-      ".": {
-        import: "./esm/mod.js",
-        require: "./script/mod.js",
-      },
-      "./utils": {
-        import: "./esm/utils.js",
-        require: "./script/utils.js",
-      },
+    dependencies: {
+      "@psephos/elgamal": elgamalVersion,
+      "@semaphore-protocol/core": semaphoreVersion,
+      "node-forge": nodeForgeVersion,
+    },
+    devDependencies: {
+      "@types/node-forge": "^1.3.11",
     },
     repository: {
       type: "git",
@@ -62,10 +83,7 @@ await build({
     bugs: {
       url: "https://github.com/B2Technology/psephos-zkp-voting/issues",
     },
-    private: false,
   },
-  test,
-  typeCheck: "both",
   postBuild() {
     Deno.copyFileSync("LICENSE", "dist/LICENSE");
     Deno.copyFileSync("README.md", "dist/README.md");
@@ -79,9 +97,5 @@ node_modules/
   `;
 
     Deno.writeTextFileSync("./dist/.npmignore", customNpmignore);
-
-    // if (!test) {
-    //   await Deno.remove("./dist/node_modules", { recursive: true });
-    // }
   },
 });
