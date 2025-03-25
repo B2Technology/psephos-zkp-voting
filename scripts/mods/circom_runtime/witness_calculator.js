@@ -23,13 +23,12 @@ import { F1Field, Scalar } from "ffjavascript";
 export default async function builder(code, options) {
   options = options || {};
 
-  // alterado o size
-  let memorySize = 32767 * 50;
+  let memorySize = 32767;
   let memory;
   let memoryAllocated = false;
   while (!memoryAllocated) {
     try {
-      memory = new WebAssembly.Memory({ initial: memorySize });
+      memory = new globalThis.WebAssembly.Memory({ initial: memorySize });
       memoryAllocated = true;
     } catch (err) {
       if (memorySize === 1) {
@@ -44,7 +43,7 @@ export default async function builder(code, options) {
     }
   }
 
-  const wasmModule = await WebAssembly.compile(code);
+  const wasmModule = await globalThis.WebAssembly.compile(code);
 
   let wc;
 
@@ -60,7 +59,7 @@ export default async function builder(code, options) {
   // If we can't lookup the patch version, assume the lowest
   let patchVersion = 0;
 
-  const instance = await WebAssembly.instantiate(wasmModule, {
+  const instance = await globalThis.WebAssembly.instantiate(wasmModule, {
     env: {
       "memory": memory,
     },
