@@ -17,14 +17,14 @@ limitations under the License.
 
 */
 
-import { flatArray, fnvHash, normalize, toArray32 } from "../../../utils.ts";
+import { flatArray, fnvHash, normalize, toArray32 } from "./utils.js";
 import { F1Field, Scalar } from "ffjavascript";
 
 export default async function builder(code, options) {
   options = options || {};
 
-  // ALTERADO O SIZE
-  let memorySize = 2767;
+  // alterado o size
+  let memorySize = 32767 / 2; // Memory size in 64K Pakes (1600Kb)
   let memory;
   let memoryAllocated = false;
   while (!memoryAllocated) {
