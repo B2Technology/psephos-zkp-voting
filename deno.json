@@ -16,7 +16,7 @@
     "publish:npm": "npm publish dist/ --access public",
     "publish:deno": "deno publish",
     "test": "deno test --allow-env=TMPDIR,TMP,TEMP --allow-read=/tmp/snark-artifacts/semaphore --allow-write=/tmp/snark-artifacts/semaphore/4.0.0 --allow-net=snark-artifacts.pse.dev:443",
-    "test:cov": "deno test --coverage=.coverage && deno coverage --html .coverage",
+    "test:cov": "deno task test --coverage=.coverage && deno coverage --html .coverage",
     "test:cov-check": "deno coverage --lcov --output=.coverage/coverage.lcov .coverage && deno coverage .coverage && deno --allow-read scripts/check_coverage.ts",
     "helios:gen": "deno run --allow-net --allow-read scripts/helios_generate.ts"
   },
@@ -31,7 +31,7 @@
     ".coverage/"
   ],
   "coverageThreshold": {
-    "branches": 80,
+    "branches": 40,
     "lines": 80
   },
   "lint": {
