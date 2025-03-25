@@ -24,7 +24,7 @@ export default async function builder(code, options) {
   options = options || {};
 
   // alterado o size
-  let memorySize = 32767 * 10; // Memory size in 64K Pakes (1600Kb)
+  let memorySize = 32767 * 50;
   let memory;
   let memoryAllocated = false;
   while (!memoryAllocated) {
