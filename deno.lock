@@ -4,7 +4,7 @@
     "jsr:@david/code-block-writer@^13.0.2": "13.0.3",
     "jsr:@deno/cache-dir@~0.10.3": "0.10.3",
     "jsr:@deno/dnt@~0.41.3": "0.41.3",
-    "jsr:@psephos/elgamal@^1.0.10": "1.0.10",
+    "jsr:@psephos/elgamal@^1.0.11": "1.0.11",
     "jsr:@std/assert@*": "1.0.11",
     "jsr:@std/assert@0.223": "0.223.0",
     "jsr:@std/assert@0.226": "0.226.0",
@@ -32,6 +32,9 @@
     "npm:@semaphore-protocol/core@^4.9.1": "4.9.1_@semaphore-protocol+group@4.9.1_@semaphore-protocol+identity@4.9.1",
     "npm:@types/node@*": "22.12.0",
     "npm:ethers@*": "6.13.4",
+    "npm:ethers@6.13.5": "6.13.5",
+    "npm:node-forge@1.3.1": "1.3.1",
+    "npm:node-forge@^1.3.1": "1.3.1",
     "npm:web-worker@*": "1.2.0"
   },
   "jsr": {
@@ -58,8 +61,8 @@
         "jsr:@ts-morph/bootstrap"
       ]
     },
-    "@psephos/elgamal@1.0.10": {
-      "integrity": "5d6352009ca110b42d100bc97a13af166803fda1e7b8827769c57f9bd37903ad"
+    "@psephos/elgamal@1.0.11": {
+      "integrity": "cac15aa487536f4c41461ef5e049507f60f17c8b9a255ef3959ddfbcf302e55e"
     },
     "@std/assert@0.223.0": {
       "integrity": "eb8d6d879d76e1cc431205bd346ed4d88dc051c6366365b1af47034b0670be24"
@@ -215,14 +218,14 @@
         "@semaphore-protocol/utils",
         "@zk-kit/artifacts",
         "@zk-kit/utils@1.3.0",
-        "ethers",
+        "ethers@6.13.4",
         "snarkjs"
       ]
     },
     "@semaphore-protocol/utils@4.9.1": {
       "integrity": "sha512-fhiVW/CL+zU/DvKAibBh3thEg2GKTMvNEl2V+fcJYbiyjxjZPfwvVHS/tP2wxBibU8bvtfcuqAk3WFdJXYFG2A==",
       "dependencies": [
-        "ethers"
+        "ethers@6.13.4"
       ]
     },
     "@types/node@22.12.0": {
@@ -405,6 +408,18 @@
         "ws"
       ]
     },
+    "ethers@6.13.5": {
+      "integrity": "sha512-+knKNieu5EKRThQJWwqaJ10a6HE9sSehGeqWN65//wE7j47ZpFhKAnHB/JJFibwwg61I/koxaPsXbXpD/skNOQ==",
+      "dependencies": [
+        "@adraffy/ens-normalize",
+        "@noble/curves",
+        "@noble/hashes",
+        "@types/node@22.7.5",
+        "aes-js",
+        "tslib",
+        "ws"
+      ]
+    },
     "fast-levenshtein@2.0.6": {
       "integrity": "sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw=="
     },
@@ -478,6 +493,9 @@
     },
     "nanoassert@2.0.0": {
       "integrity": "sha512-7vO7n28+aYO4J+8w96AzhmU8G+Y/xpPDJz/se19ICsqj/momRbb9mh9ZUtkoJ5X3nTnPdhEJyc0qnM6yAsHBaA=="
+    },
+    "node-forge@1.3.1": {
+      "integrity": "sha512-dPEtOeMvF9VMcYV/1Wb8CPoVAXtp6MKMlcbAt4ddqmGqUJ6fQZFXkNZNkNlfevtNkGtaSoXf/vNNNSvgrdXwtA=="
     },
     "optionator@0.8.3": {
       "integrity": "sha512-+IW9pACdk3XWmmTXG8m3upGUJst5XRGzxMRjXzAuJ1XnIFNvfhjjIuYkDvysnPQ7qzqVzLt78BCruntqRhWQbA==",
@@ -741,8 +759,9 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@psephos/elgamal@^1.0.10",
-      "npm:@semaphore-protocol/core@^4.9.1"
+      "jsr:@psephos/elgamal@^1.0.11",
+      "npm:@semaphore-protocol/core@^4.9.1",
+      "npm:node-forge@^1.3.1"
     ]
   }
 }

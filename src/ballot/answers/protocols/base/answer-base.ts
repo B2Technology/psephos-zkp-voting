@@ -8,7 +8,7 @@ import { objectToSha256 } from "../../../../utils/index.ts";
 
 // TODO copiar alguns metodos para Interface
 
-export abstract class AnswerBase implements IAnswerGenerate {
+export abstract class AnswerBase implements IAnswerGenerate<unknown> {
   protected readonly answers: Map<number, number[]>; // question index -> answer index
 
   protected constructor(

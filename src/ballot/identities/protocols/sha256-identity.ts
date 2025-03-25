@@ -1,8 +1,8 @@
 import type { IIdentity, IIdentityGenerate } from "../../../types/index.ts";
 import { PshIdentityProtocolEnum } from "../../../types/index.ts";
-import { sha256 } from "../../../utils/index.ts";
+import { joinToSha256 } from "../../../utils/index.ts";
 
-export class Sha256Identity implements IIdentityGenerate {
+export class Sha256Identity implements IIdentityGenerate<string> {
   private _secret: string | null = null;
   private _electionUUID: string | null = null;
 
@@ -23,7 +23,7 @@ export class Sha256Identity implements IIdentityGenerate {
       throw new Error("Election UUID not set");
     }
 
-    const proof = await sha256(`${this._secret}:${this._electionUUID}`);
+    const proof = await joinToSha256(this._secret, this._electionUUID);
 
     return {
       proof,

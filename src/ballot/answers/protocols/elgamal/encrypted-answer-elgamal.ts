@@ -94,7 +94,7 @@ export class EncryptedAnswerElgamal {
 
   toAuditableObject(): IAnswerAuditableElGamal {
     return {
-      answer: this.answer,
+      answers: this.answer,
       choices: this.choices.map((c) => c.toCommitmentJSON()),
       randomness: this.randomness.map((r) => r.toString()),
       overall_proof: this.overall_proof?.toProofsJSON(),

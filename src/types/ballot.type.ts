@@ -21,7 +21,7 @@ export interface IIdentity<I> {
 
 export interface IAppClient {
   /**
-   * ex: `sha256(ballot_hash + election_hash + client_secret)`
+   * ex: `joinToSha256(overall_answers_hash, client_secret)`
    */
   proof: string;
 

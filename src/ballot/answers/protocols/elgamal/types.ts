@@ -11,5 +11,5 @@ export interface IAnswerAuditableElGamal {
   individual_proofs: ZKProofJSON[][];
   overall_proof: ZKProofJSON[];
   randomness: string[];
-  answer: number[];
+  answers: number[];
 }

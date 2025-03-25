@@ -17,7 +17,8 @@ import type {
   ProofHelios,
 } from "./types.ts";
 
-export class AnswerHelios extends AnswerElgamal implements IAnswerGenerate {
+export class AnswerHelios extends AnswerElgamal
+  implements IAnswerGenerate<IAnswerHelios> {
   override getProtocol(): PshAnswerProtocolEnum {
     return PshAnswerProtocolEnum.Helios;
   }
@@ -97,7 +98,7 @@ export class AnswerHelios extends AnswerElgamal implements IAnswerGenerate {
       const asAuditable = as as IAnswerAuditableElGamal;
       return {
         ...obj,
-        answer: asAuditable.answer,
+        answers: asAuditable.answers,
         randomness: asAuditable.randomness.map((r) => r.toString()),
       } as IAnswerAuditableHelios;
     }

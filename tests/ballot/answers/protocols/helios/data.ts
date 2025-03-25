@@ -203,7 +203,7 @@ export const EXPECTED_BALLOT: IBallotHelios<IAnswerAuditableHelios> = {
             "32308257544529179907178168476190928719911598121224053423094934936687981869538",
         },
       ],
-      "answer": [
+      "answers": [
         1,
       ],
       "randomness": [

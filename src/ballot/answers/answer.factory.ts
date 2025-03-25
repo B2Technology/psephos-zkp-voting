@@ -6,19 +6,23 @@ import {
 } from "../../types/index.ts";
 import { AnswerElgamal } from "./protocols/elgamal/answer-elgamal.ts";
 import { AnswerHelios } from "./protocols/helios/answer-helios.ts";
+import { AnswerPlaintext } from "./protocols/plaintext/answer-plaintext.ts";
 
 export class PshAnswerFactory {
   static make(
     protocol: PshAnswerProtocolEnum,
     election: IPshElection,
     publicKey: PublicKey,
-  ): IAnswerGenerate {
+  ): IAnswerGenerate<unknown> {
     switch (protocol) {
       case PshAnswerProtocolEnum.ElGamal:
         return PshAnswerFactory.ElGamal(election, publicKey);
 
       case PshAnswerProtocolEnum.Helios:
         return PshAnswerFactory.Helios(election, publicKey);
+
+      case PshAnswerProtocolEnum.Plaintext:
+        return PshAnswerFactory.Plaintext(election);
 
       default:
         throw new Error(`Unsupported PshAnswerProtocolEnum.${protocol}`);
@@ -31,5 +35,9 @@ export class PshAnswerFactory {
 
   static Helios(election: IPshElection, publicKey: PublicKey): AnswerHelios {
     return new AnswerHelios(election, publicKey);
+  }
+
+  static Plaintext(election: IPshElection): AnswerPlaintext {
+    return new AnswerPlaintext(election);
   }
 }

@@ -1,9 +1,9 @@
-import type { CiphertextJSON } from "@psephos/elgamal";
 import { decodeBytes32String, toBeHex } from "npm:ethers";
 import { assertEquals, assertRejects } from "jsr:@std/assert";
 import { PshIdentityProtocolEnum } from "../../../src/types/index.ts";
 import { PshIdentityFactory } from "../../../src/ballot/index.ts";
-import { PUBLIC_KEY } from "../../stubs/contants.ts";
+import { PshRSA } from "../../../src/utils/index.ts";
+import { PSH_RSA } from "../../stubs/contants.ts";
 
 Deno.test("PshIdentityFactory::Plaintext", async () => {
   const identity = PshIdentityFactory.Plaintext();
@@ -43,31 +43,30 @@ Deno.test("PshIdentityFactory::Sha256", async () => {
   );
 });
 
-Deno.test("PshIdentityFactory::ElGamal", async () => {
-  const identity = PshIdentityFactory.ElGamal();
+Deno.test("PshIdentityFactory::PsephosRSA", async () => {
+  const identity = PshIdentityFactory.PsephosRSA();
 
   // Quando não setar o segredo, deve lançar um erro
   await assertRejects(() => identity.generate(), Error, "Secret not set");
-  identity.setSecret("my-secret");
+  identity.setSecret("my-secret-54");
 
   // Quando não setar PublicKey, deve lançar um erro
   await assertRejects(() => identity.generate(), Error, "Public key not set");
-  identity.setPublicKey(PUBLIC_KEY);
+  identity.setPublicKey(PSH_RSA.publicKey);
 
   const result = await identity.generate();
-  assertEquals(result.protocol, PshIdentityProtocolEnum.ElGamal);
+  assertEquals(result.protocol, PshIdentityProtocolEnum.PsephosRSA);
   assertEquals(
-    typeof result.proof.alpha,
+    typeof result.proof,
     "string",
   );
-  assertEquals(
-    typeof result.proof.beta,
-    "string",
+
+  const decrypted = await PshRSA.decrypt(
+    result.proof,
+    PSH_RSA.privateKey,
+    PSH_RSA.passphrase,
   );
-  assertEquals(
-    typeof (result as unknown as CiphertextJSON).pk,
-    "undefined",
-  );
+  assertEquals(decrypted, "my-secret-54");
 });
 
 Deno.test("PshIdentityFactory::Semaphore", async () => {

@@ -3,14 +3,14 @@ import {
   PshIdentityProtocolEnum,
 } from "../../types/index.ts";
 import { SemaphoreIdentity } from "./protocols/semaphore-identity.ts";
+import { PsephosRSAIdentity } from "./protocols/psephos-rsa-identity.ts";
 import { PlaintextIdentity } from "./protocols/plaintext-identity.ts";
-import { ElgamalIdentity } from "./protocols/elgamal-identity.ts";
 import { Sha256Identity } from "./protocols/sha256-identity.ts";
 
 export class PshIdentityFactory {
   static make(
     protocol: PshIdentityProtocolEnum,
-  ): IIdentityGenerate {
+  ): IIdentityGenerate<unknown> {
     switch (protocol) {
       case PshIdentityProtocolEnum.Plaintext:
         return PshIdentityFactory.Plaintext();
@@ -18,8 +18,8 @@ export class PshIdentityFactory {
       case PshIdentityProtocolEnum.Sha256:
         return PshIdentityFactory.Sha256();
 
-      case PshIdentityProtocolEnum.ElGamal:
-        return PshIdentityFactory.ElGamal();
+      case PshIdentityProtocolEnum.PsephosRSA:
+        return PshIdentityFactory.PsephosRSA();
 
       case PshIdentityProtocolEnum.Semaphore:
         return PshIdentityFactory.Semaphore();
@@ -37,8 +37,8 @@ export class PshIdentityFactory {
     return new Sha256Identity();
   }
 
-  static ElGamal(): ElgamalIdentity {
-    return new ElgamalIdentity();
+  static PsephosRSA(): PsephosRSAIdentity {
+    return new PsephosRSAIdentity();
   }
 
   static Semaphore(): SemaphoreIdentity {

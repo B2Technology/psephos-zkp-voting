@@ -1,3 +1,7 @@
+export function joinToSha256(...chunks: string[]): Promise<string> {
+  return sha256(chunks.join(":"));
+}
+
 export async function sha256(stringToHash: string): Promise<string> {
   const encoder = new TextEncoder();
   const data = encoder.encode(stringToHash);

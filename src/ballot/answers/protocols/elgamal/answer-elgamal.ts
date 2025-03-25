@@ -22,7 +22,8 @@ import { EncryptedAnswerElgamal } from "./encrypted-answer-elgamal.ts";
 
 // TODO copiar alguns metodos para Interface
 
-export class AnswerElgamal extends AnswerBase implements IAnswerGenerate {
+export class AnswerElgamal extends AnswerBase
+  implements IAnswerGenerate<IAnswerElGamal> {
   protected readonly publicKey: PublicKey;
 
   constructor(

@@ -8,7 +8,7 @@ import {
 import type { IIdentity, IIdentityGenerate } from "../../../types/index.ts";
 import { PshIdentityProtocolEnum } from "../../../types/index.ts";
 
-export class SemaphoreIdentity implements IIdentityGenerate {
+export class SemaphoreIdentity implements IIdentityGenerate<SemaphoreProof> {
   private _secret: string | null = null;
   private _scope: string | null = null;
   private _ballotHash: string | null = null;

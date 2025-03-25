@@ -30,7 +30,7 @@ Deno.test("BallotHelios::generate", async () => {
 
   // answer e randomness nao devem ser retornados
   const answerUnknown = heliosIAnswers as IAnswers<IAnswerAuditableHelios>;
-  assertEquals(answerUnknown.proofs[0].answer, undefined);
+  assertEquals(answerUnknown.proofs[0].answers, undefined);
   assertEquals(answerUnknown.proofs[0].randomness, undefined);
 });
 
@@ -43,8 +43,8 @@ Deno.test("BallotHelios::generateAuditable", async () => {
   assertEquals(ballotPsh.protocol, PshAnswerProtocolEnum.Helios);
   assertEquals(ballotPsh.proofs.length, 1);
   equal(
-    ballotPsh.proofs[0].answer,
-    EXPECTED_BALLOT.answers[0].answer,
+    ballotPsh.proofs[0].answers,
+    EXPECTED_BALLOT.answers[0].answers,
   );
   assertEquals(ballotPsh.proofs[0].choices.length, 2);
   assertExists(ballotPsh.proofs[0].choices[0].alpha);
@@ -71,7 +71,7 @@ Deno.test("BallotHelios::toHeliosObject", async () => {
   // answer e randomness nao devem ser retornados
   const answerUnknown = ballotHelios
     .answers[0] as unknown as IAnswerAuditableHelios;
-  assertEquals(answerUnknown.answer, undefined);
+  assertEquals(answerUnknown.answers, undefined);
   assertEquals(answerUnknown.randomness, undefined);
 
   assertEquals(ballotHelios.election_hash, EXPECTED_BALLOT.election_hash);
@@ -103,8 +103,8 @@ Deno.test("BallotHelios::toAuditableHeliosObject", async () => {
   assertEquals(ballotHelios.election_uuid, EXPECTED_BALLOT.election_uuid);
   assertEquals(ballotHelios.answers.length, 1);
   equal(
-    ballotHelios.answers[0].answer,
-    EXPECTED_BALLOT.answers[0].answer,
+    ballotHelios.answers[0].answers,
+    EXPECTED_BALLOT.answers[0].answers,
   );
   assertEquals(ballotHelios.answers[0].choices.length, 2);
   assertExists(ballotHelios.answers[0].choices[0].alpha);

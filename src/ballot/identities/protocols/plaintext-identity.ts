@@ -1,7 +1,7 @@
 import type { IIdentity, IIdentityGenerate } from "../../../types/index.ts";
 import { PshIdentityProtocolEnum } from "../../../types/index.ts";
 
-export class PlaintextIdentity implements IIdentityGenerate {
+export class PlaintextIdentity implements IIdentityGenerate<string> {
   private _secret: string | null = null;
 
   setSecret(txt: string): void {

@@ -37,7 +37,7 @@ Deno.test("AnswerElgamal::generate", async () => {
 
   // Nao deve aparecer os atributos de answer e randomness
   const proofUnknown = answers.proofs[0] as IAnswerAuditableElGamal;
-  assertEquals(proofUnknown.answer, undefined);
+  assertEquals(proofUnknown.answers, undefined);
   assertEquals(proofUnknown.randomness, undefined);
 
   // Check hashes
@@ -82,7 +82,7 @@ Deno.test("AnswerElgamal::generateAuditable", async () => {
   const answers = await protocol.generateAuditable();
 
   // Deve aparecer os atributos de answer e randomness
-  assertEquals(answers.proofs[0].answer.length, 1);
+  assertEquals(answers.proofs[0].answers.length, 1);
   assertEquals(answers.proofs[0].randomness.length, 2);
 });
 

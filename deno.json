@@ -21,8 +21,9 @@
     "helios:gen": "deno run --allow-net --allow-read scripts/helios_generate.ts"
   },
   "imports": {
-    "@psephos/elgamal": "jsr:@psephos/elgamal@^1.0.10",
-    "@semaphore-protocol/core": "npm:@semaphore-protocol/core@^4.9.1"
+    "@psephos/elgamal": "jsr:@psephos/elgamal@^1.0.11",
+    "@semaphore-protocol/core": "npm:@semaphore-protocol/core@^4.9.1",
+    "node-forge": "npm:node-forge@^1.3.1"
   },
   "exclude": [
     "dist/",

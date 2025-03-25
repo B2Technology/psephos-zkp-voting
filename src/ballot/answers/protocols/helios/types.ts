@@ -24,7 +24,7 @@ export interface IAnswerAuditableHelios {
   choices: ChoiceHelios[];
   individual_proofs: ProofHelios[][];
   overall_proof: ProofHelios[];
-  answer: number[];
+  answers: number[];
   randomness: string[];
 }
 

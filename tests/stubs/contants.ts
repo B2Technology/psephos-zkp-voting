@@ -70,3 +70,46 @@ const keys = KeyPair.fromJSON({
 
 export const PUBLIC_KEY = keys.pk;
 export const SECRET_KEY = keys.sk;
+
+export const PSH_RSA = {
+  passphrase: "psephos2025",
+  publicKey: "-----BEGIN PUBLIC KEY-----\n" +
+    "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtmfeS9lkXgSxd15fbuIr\n" +
+    "5rU5ZWxRsfnhagrZ/wt9/bjx1a3DyEll9HhC3gUTEgeGFMisGseo8kX/KEt4Vaod\n" +
+    "5fwAXokLomn1ZWZtpVeiHBJeKpTsgYPXYdLzhwGo9XTjbxh6N592AVKQJkZ6H2e9\n" +
+    "48pTGp9prLmDtH9xpcwoRZmJl6EuDjohSEAMsyfYeNkxfkT/AAnMH5ygJyRkQoO/\n" +
+    "Gfh3oRRe9Say3kxYXlFKyMEllboKzLGAEPFx2zmGHU9/eXbs47dD5GA/iQu8CJhe\n" +
+    "ugfgEOhL5H0rgeTlTULp6dDUM6QX+dW8EjV1X5XvCM6/wcFjeH4dY0XT4o1Lb+mR\n" +
+    "WQIDAQAB\n" +
+    "-----END PUBLIC KEY-----\n",
+  privateKey: "-----BEGIN ENCRYPTED PRIVATE KEY-----\n" +
+    "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\n" +
+    "aw7kq5s50zAY/4XSuEHFi6C0xw==\n" +
+    "-----END ENCRYPTED PRIVATE KEY-----\n",
+};
