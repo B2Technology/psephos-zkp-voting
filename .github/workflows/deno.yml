@@ -31,11 +31,13 @@ jobs:
       - name: "✅ Run check"
         run: deno check src
 
-      - name: "🧪 Run tests"
+      - name: "💊 Prepare tests"
         run: |
-          deno install
+          deno install npm:@semaphore-protocol/core@^4.9.1
           deno -A scripts/polyfills.ts
-          deno task test:cov
+
+      - name: "🧪 Run tests"
+        run: deno task test:cov
 
       - name: "📊 Run check coverage"
         run: deno task test:cov-check
